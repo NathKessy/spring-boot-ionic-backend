@@ -10,22 +10,21 @@ import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.services.CategoriaService;
 
 @RestController
-@RequestMapping(value="/categorias")
+@RequestMapping(value = "/categorias")
 public class CategoriaResource {
-	
+
 	private final CategoriaService service;
 
 	CategoriaResource(CategoriaService service) {
 		this.service = service;
 	}
-	
-	@RequestMapping(value = "/{id}",  method=RequestMethod.GET)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		Categoria obj = service.buscar(id);
 		return ResponseEntity.ok().body(obj);
-		
+
 	}
 }
-
 
 // ResponseEntity --> Esse tipo é um tipo especial do Spring onde ele encapsula varias informações de uma resposta HTTP para um serviço rest
