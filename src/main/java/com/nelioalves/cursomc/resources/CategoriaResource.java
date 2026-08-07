@@ -24,20 +24,27 @@ public class CategoriaResource {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		Categoria obj = service.buscar(id);
+	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
+		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Categoria obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id) {
+		obj.setId(id);
+		obj = service.update(obj);
+		return ResponseEntity.noContent().build();
+	}
 }
 
-// Anotação
+// Anotações
 // ResponseEntity --> Esse tipo é um tipo especial do Spring onde ele encapsula varias informações de uma resposta HTTP para um serviço rest.
 // fromCurrentRequest --> Ele pega a URL (http://localhost:8080/categorias) q nós usamos para inserir e acrescentamos o id que vamos criar no metodo POST.
 // @RequestBody --> Para que esse (Categoria obj) seja contruido a partir dos dados Json que eu enviar, tem que inserir essa anotação, fazendo o Json ser convetido para um objeto java automaticamente.
