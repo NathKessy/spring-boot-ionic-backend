@@ -9,3 +9,6 @@ import com.nelioalves.cursomc.domain.Categoria;
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
 }
+
+//Anotações
+// interface é uma classe que não pode ser instanciada
