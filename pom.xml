@@ -8,7 +8,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.5</version> <!-- Ajustado para uma versão estável e compatível -->
+		<version>3.2.5</version> <!-- Ajustado para uma versão estável e
+		compatível -->
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -29,6 +30,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<!-- JPA e Hibernate (para banco de dados) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -42,7 +48,8 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- DevTools (para reiniciar o servidor automaticamente ao alterar o código) -->
+		<!-- DevTools (para reiniciar o servidor automaticamente ao alterar o
+		código) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
