@@ -35,7 +35,7 @@ public abstract class Pagamento implements Serializable {
 	public Pagamento(Integer id, EstadoPagamento estado, Pedido pedido) {
 		super();
 		this.id = id;
-		this.estado = estado.getCod();
+		this.estado = (estado == null) ? null : estado.getCod(); // Se este estado que veio como argumento ele for igual a nulo, então é jogado nulo no atributo estado do meu onj, caso contrario ele pode acessar o getCode dele
 		this.pedido = pedido;
 	}
 

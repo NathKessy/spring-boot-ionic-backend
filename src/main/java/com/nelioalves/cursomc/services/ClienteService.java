@@ -31,8 +31,8 @@ public class ClienteService {
 	}
 
 	public Cliente update(Cliente obj) {
-		Cliente newObj = find(obj.getId()); //Agora vou estar instanciando um cliente a partir do banco de dados
-		updateData(newObj, obj); // Aqui é um metodo auxiliar que ele vai atualizar os dados a partir dos criados com base com o obj que veio como argumento
+		Cliente newObj = find(obj.getId());
+		updateData(newObj, obj); 
 		return repo.save(newObj);
 	}
 
@@ -58,7 +58,6 @@ public class ClienteService {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
 	}	
 	
-	//Ele esta sendo criado como private por ser um metodo auxiliar dentro da classe e não ter motivo para ficar exposto para fora
 	private void updateData(Cliente newObj, Cliente obj) { // Agora ele atualiza os objtos do newObj com os novos dados que vieram no obj
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());

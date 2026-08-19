@@ -36,8 +36,9 @@ public class CategoriaService {
 	}
 
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId()); //Agora vou estar instanciando uma categoria a partir do banco de dados
+		updateData(newObj, obj); // Aqui é um metodo auxiliar que ele vai atualizar os dados a partir dos criados com base com o obj que veio como argumento
+		return repo.save(newObj);
 	}
 
 	public void delete(Integer id) {
@@ -62,7 +63,13 @@ public class CategoriaService {
 	public Categoria fromDTO(CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getNome());
 	}
+	
+	//Ele esta sendo criado como private por ser um metodo auxiliar dentro da classe e não ter motivo para ficar exposto para fora
+	private void updateData(Categoria newObj, Categoria obj) { // Agora ele atualiza os objtos do newObj com os novos dados que vieram no obj
+		newObj.setNome(obj.getNome());
+	}
 }
+
 
 /* Anotações
 - Quando declarar uma dependencia dentro de uma classe e coloca o @Autowired, ela passa a ser automaticamente instanciada pelo Spring
