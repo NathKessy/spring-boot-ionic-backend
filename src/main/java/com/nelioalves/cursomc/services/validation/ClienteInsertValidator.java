@@ -3,8 +3,10 @@ package com.nelioalves.cursomc.services.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.nelioalves.cursomc.domain.Cliente;
 import com.nelioalves.cursomc.domain.enums.TipoCliente;
 import com.nelioalves.cursomc.dto.ClienteNewDTO;
+import com.nelioalves.cursomc.repositories.ClienteRepository;
 import com.nelioalves.cursomc.resources.exception.FieldMessage;
 import com.nelioalves.cursomc.services.validation.utils.BR;
 
@@ -15,14 +17,18 @@ import jakarta.validation.ConstraintValidatorContext;
 // para validar os dados do DTO de criação de cliente (ClienteNewDTO)
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
 
-	// Método chamado na inicialização do validador.
-	// Como não há configurações iniciais necessárias, permanece vazio.
+	private final ClienteRepository repo;
+
+	ClienteInsertValidator(ClienteRepository repo) {
+		this.repo = repo;
+	}
+
+	// Método chamado na inicialização do validador, como não há configurações iniciais necessárias, permanece vazio.
 	@Override
 	public void initialize(ClienteInsert ann) {
 	}
 
-	// Método responsável por executar a regra de negócio da validação.
-	// Retorna 'true' se o DTO for válido e 'false' caso contrário.
+	// Método responsável por executar a regra de negócio da validação, retorna 'true' se o DTO for válido e 'false' caso contrário.
 	@Override
 	public boolean isValid(ClienteNewDTO objDto, ConstraintValidatorContext context) {
 
@@ -34,13 +40,22 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 			list.add(new FieldMessage("cpfOuCnpj", "CPF inválido"));
 		}
 
-		// REGRA 2: Se o tipo for Pessoa Jurídica, verifica se o CNPJ é inválido usando a classe utilitária BR
+		// REGRA 2: Se o tipo for Pessoa Jurídica, verifica se o CNPJ é inválido usando
+		// a classe utilitária BR
 		if (objDto.getTipo().equals(TipoCliente.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
 			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
 		}
 
-		/* Transforma os erros da nossa lista personalizada (FieldMessage) no formato padrão de erro esperado 
-		 pelo framework de validação (Bean Validation) */
+		// REGRA 3: Busca no banco se já existe um cliente cadastrado com este e-mail
+		Cliente aux = repo.findByEmail(objDto.getEmail());
+		if (aux != null) {
+			list.add(new FieldMessage("email", "Email já existente"));
+		}
+
+		/*
+		 * Transforma os erros da nossa lista personalizada (FieldMessage) no formato
+		 * padrão de erro esperado pelo framework de validação (Bean Validation)
+		 */
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation(); // Desabilita a mensagem de erro padrão
 			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
