@@ -10,6 +10,7 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelioalves.cursomc.domain.enums.TipoCliente;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -30,7 +31,7 @@ public class Cliente implements Serializable {
 	private String cpfOuCnpj;
 	private Integer tipo;
 
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) // Toda operação que modificar um cliente, vai ser refletido isso em cascata nos endereços, se apagar o cliente o endereco do cliente tbm sera apagado automaticamente
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	@ElementCollection
