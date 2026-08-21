@@ -40,8 +40,7 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 			list.add(new FieldMessage("cpfOuCnpj", "CPF inválido"));
 		}
 
-		// REGRA 2: Se o tipo for Pessoa Jurídica, verifica se o CNPJ é inválido usando
-		// a classe utilitária BR
+		// REGRA 2: Se o tipo for Pessoa Jurídica, verifica se o CNPJ é inválido usando a classe utilitária BR
 		if (objDto.getTipo().equals(TipoCliente.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
 			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
 		}
